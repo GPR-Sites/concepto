@@ -1,0 +1,9 @@
+ponteiro fino? true
+rotulo                fonte    12px   altura 16px
+input                 fonte    13px   altura 36px
+select proprio        fonte    13px   altura 36px
+valor do select       fonte    13px   altura 21px
+textarea              fonte    13px   altura 60px
+placeholder textarea  fonte    13px   altura 60px
+aceite                fonte     8px   altura 23px
+botao                 fonte    13px   altura 40px

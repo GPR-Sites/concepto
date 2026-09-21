@@ -1,0 +1,3071 @@
+/* ============================================================
+   SITE, estrutura e componentes.
+   Mobile-first sem exceção: o estilo base é a versão de 360px
+   e só cresce por @media (min-width: …).
+   Não edite este arquivo para trocar de cliente, edite tokens.css.
+   ============================================================ */
+
+/* ---------------------------------------------------------
+   1. Reset
+   --------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 8rem;
+}
+
+body {
+  min-height: 100svh;
+  background: var(--bg);
+  color: var(--body);
+  font-family: var(--font);
+  font-size: var(--fs-body);
+  font-weight: 400;
+  line-height: var(--lh-body);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+  background: #e2e2e2;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+}
+
+/* ---------------------------------------------------------
+   2. Tipografia
+   --------------------------------------------------------- */
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--ink);
+  font-weight: 700;
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.display,
+h1 {
+  font-size: var(--fs-display);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.025em;
+}
+
+h2 {
+  font-size: var(--fs-h2);
+  letter-spacing: -0.02em;
+}
+
+h3 {
+  font-size: var(--fs-h3);
+  letter-spacing: -0.01em;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+.lead {
+  font-size: var(--fs-lead);
+  color: var(--body);
+  max-width: 46ch;
+}
+
+.meta {
+  font-size: var(--fs-meta);
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+a {
+  color: var(--navy);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  color: var(--gold-deep);
+}
+
+strong {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.prose {
+  max-width: 68ch;
+}
+
+.prose > * + * {
+  margin-top: var(--sp-5);
+}
+
+.prose h2 {
+  margin-top: var(--sp-12);
+}
+
+.prose h3 {
+  margin-top: var(--sp-8);
+}
+
+.prose ul {
+  display: grid;
+  gap: var(--sp-3);
+}
+
+.prose ul li {
+  position: relative;
+  padding-left: var(--sp-6);
+}
+
+/* Mesma razão do bloco de tópicos: marca redonda, não traço. */
+.prose ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 50%;
+  background: var(--gold-deep);
+}
+
+/* ---------------------------------------------------------
+   3. Layout
+   --------------------------------------------------------- */
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.container--wide {
+  max-width: var(--container-wide);
+}
+
+.container--text {
+  max-width: var(--container-text);
+}
+
+.section {
+  padding-block: var(--section-y);
+}
+
+.section--lg {
+  padding-block: var(--section-y-lg);
+}
+
+.section--sm {
+  padding-block: var(--section-y-sm);
+}
+
+/* Faixa navy: a cor institucional em bloco inteiro. */
+.band {
+  background: var(--navy);
+  color: var(--on-navy-muted);
+}
+
+.band--deep {
+  background: var(--navy-900);
+}
+
+.band h1,
+.band h2,
+.band h3,
+.band strong {
+  color: var(--on-navy);
+}
+
+.band .lead,
+.band .meta {
+  color: var(--on-navy-muted);
+}
+
+.band a {
+  color: var(--on-navy);
+}
+
+.surface {
+  background: var(--surface);
+}
+
+/* Título de seção alinhado à esquerda por padrão. Centralizar toda seção
+   deixa a página com um ritmo só; --center é a exceção deliberada. */
+.section-head {
+  display: grid;
+  gap: var(--sp-3);
+  max-width: 38rem;
+  margin-bottom: var(--sp-10);
+}
+
+.section-head .lead {
+  max-width: 54ch;
+}
+
+.section-head--center {
+  max-width: 44rem;
+  margin-inline: auto;
+  text-align: center;
+  justify-items: center;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--sp-4);
+  top: var(--sp-4);
+  z-index: var(--z-toast);
+  transform: translateY(-200%);
+  background: var(--navy);
+  color: var(--on-navy);
+  padding: var(--sp-3) var(--sp-5);
+  border-radius: var(--r-sm);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------------------------------------------------------
+   4. Foco, um só padrão, em todo lugar
+   --------------------------------------------------------- */
+
+:focus-visible {
+  outline: 3px solid var(--navy);
+  outline-offset: 3px;
+  border-radius: var(--r-sm);
+}
+
+/* Sobre superfície navy o anel vira dourado (6,57:1). Sobre o cinza claro
+   ele fica navy, porque o dourado ali só alcança 2,07:1. */
+/* Sobre superfície escura o anel é branco: é o que garante 3:1 em
+   qualquer paleta, inclusive quando a cor de ação é próxima da
+   cor da marca em luminância. */
+.band :focus-visible,
+.page-head :focus-visible,
+.contact :focus-visible,
+.proof :focus-visible,
+.nav-drawer :focus-visible,
+.banner :focus-visible,
+.strip :focus-visible,
+.person :focus-visible,
+.tabs__btn[aria-selected='true']:focus-visible {
+  outline-color: var(--on-navy);
+}
+
+/* ---------------------------------------------------------
+   5. Botões
+   --------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  min-height: 46px;
+  padding: var(--sp-3) var(--sp-8);
+  border-radius: var(--r-sm);
+  font-size: var(--fs-ui);
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color var(--t) var(--ease), color var(--t) var(--ease),
+    border-color var(--t) var(--ease), transform var(--t-fast) var(--ease);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn svg {
+  flex: none;
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+/* O botão da casa: pílula dourada. */
+.btn--primary {
+  background: var(--gold);
+  color: var(--on-gold);
+  font-weight: 600;
+}
+
+.btn--primary:hover {
+  background: var(--gold-dark);
+  color: var(--on-gold);
+}
+
+.btn--navy {
+  background: var(--navy);
+  color: var(--on-navy);
+  font-weight: 600;
+}
+
+.btn--navy:hover {
+  background: var(--navy-700);
+  color: var(--on-navy);
+}
+
+.btn--wa {
+  background: var(--whatsapp);
+  color: var(--whatsapp-ink);
+  font-weight: 600;
+}
+
+.btn--wa:hover {
+  background: #1fb457;
+  color: var(--whatsapp-ink);
+}
+
+.btn--ghost {
+  border: 1px solid var(--navy);
+  color: var(--navy);
+  background: transparent;
+  font-weight: 600;
+}
+
+.btn--ghost:hover {
+  background: var(--navy);
+  color: var(--on-navy);
+}
+
+.band .btn--ghost,
+.hero .btn--ghost,
+.page-head .btn--ghost {
+  border-color: rgba(255, 255, 255, 0.55);
+  color: var(--on-navy);
+}
+
+.band .btn--ghost:hover,
+.hero .btn--ghost:hover,
+.page-head .btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--on-navy);
+}
+
+.btn--block {
+  width: 100%;
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+
+.btn-row--center {
+  justify-content: center;
+}
+
+@media (max-width: 24.9375rem) {
+  .btn-row .btn {
+    width: 100%;
+  }
+}
+
+.arrow-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-weight: 600;
+  font-size: var(--fs-ui);
+  text-decoration: none;
+  color: var(--navy);
+}
+
+.arrow-link svg {
+  width: 1rem;
+  height: 1rem;
+  /* O acento vira texto sobre fundo claro aqui: 5,5:1 em vez de 2,5:1. */
+  color: var(--gold-deep);
+  transition: transform var(--t) var(--ease);
+}
+
+.arrow-link:hover {
+  color: var(--gold-deep);
+}
+
+.arrow-link:hover svg {
+  transform: translateX(3px);
+}
+
+/* Ícones em círculo branco, redes sociais e atalhos. */
+.icon-circles {
+  display: flex;
+  gap: var(--sp-3);
+}
+
+.icon-circles a {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--gold-deep);
+  box-shadow: var(--shadow-1);
+  transition: transform var(--t) var(--ease), background-color var(--t) var(--ease);
+}
+
+.icon-circles a:hover {
+  transform: translateY(-2px);
+  color: var(--navy);
+}
+
+.icon-circles svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.band .icon-circles a {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  color: var(--on-navy);
+  box-shadow: none;
+}
+
+.band .icon-circles a:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--on-navy);
+}
+
+/* ---------------------------------------------------------
+   6. Header, barra flutuante de cantos arredondados
+   --------------------------------------------------------- */
+
+.site-header {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: var(--z-header);
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  transition: background-color var(--t) var(--ease), border-color var(--t) var(--ease),
+    box-shadow var(--t) var(--ease);
+}
+
+/* Na home o cabeçalho flutua sobre a foto do hero até o primeiro scroll. */
+.site-header--overlay {
+  background: transparent;
+  border-bottom-color: transparent;
+}
+
+.site-header--overlay .brand-mark,
+.site-header--overlay .nav-toggle,
+.site-header--overlay .nav-desktop a {
+  color: var(--on-navy);
+}
+
+.site-header--overlay .brand-mark__glyph {
+  color: var(--gold);
+}
+
+.site-header--overlay .brand-mark__sub {
+  color: var(--gold);
+}
+
+.site-header--overlay .nav-desktop a::after {
+  background: var(--on-navy);
+}
+
+.site-header.is-stuck {
+  background: var(--surface);
+  border-bottom-color: var(--line);
+  box-shadow: var(--shadow-1);
+}
+
+.site-header.is-stuck .brand-mark,
+.site-header.is-stuck .nav-toggle,
+.site-header.is-stuck .nav-desktop a {
+  color: var(--navy);
+}
+
+.site-header.is-stuck .brand-mark__sub {
+  color: var(--gold-deep);
+}
+
+.site-header.is-stuck .nav-desktop a::after {
+  background: var(--navy);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  min-height: var(--header-h);
+}
+
+@media (min-width: 64rem) {
+  .header-inner {
+    min-height: var(--header-h-lg);
+  }
+}
+
+/* Marca: símbolo + nome + descritor. */
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  color: var(--navy);
+  text-decoration: none;
+}
+
+.brand-mark__glyph {
+  flex: none;
+  width: 28px;
+  height: 36px;
+  color: var(--gold-deep);
+}
+
+.brand-mark__text {
+  display: grid;
+  gap: 1px;
+}
+
+.brand-mark__name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.brand-mark__sub {
+  font-size: 0.5rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+  line-height: 1.1;
+}
+
+.nav-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--navy);
+}
+
+.nav-toggle svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.nav-desktop {
+  display: none;
+}
+
+.header-cta {
+  display: none;
+}
+
+@media (min-width: 64rem) {
+  .nav-toggle {
+    display: none;
+  }
+  .nav-desktop {
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 2.4vw, 2rem);
+    margin-inline: auto;
+  }
+  .nav-desktop a {
+    position: relative;
+    color: var(--navy);
+    font-size: var(--fs-ui);
+    font-weight: 500;
+    text-decoration: none;
+    padding-block: var(--sp-2);
+  }
+  .nav-desktop a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.3rem;
+    height: 1px;
+    background: var(--navy);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--t) var(--ease);
+  }
+  /* aria-current="page" é a página; "location" é a seção em que o
+     visitante está agora. As duas acendem o sublinhado. */
+  .nav-desktop a:hover::after,
+  .nav-desktop a[aria-current]::after {
+    transform: scaleX(1);
+  }
+  .header-cta {
+    display: inline-flex;
+    flex: none;
+  }
+}
+
+/* Drawer nativo, <dialog>, então foco, Esc e inércia vêm de graça */
+.nav-drawer {
+  width: min(21rem, 86vw);
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0 0 0 auto;
+  padding: 0;
+  border: 0;
+  background: var(--navy);
+  color: var(--on-navy);
+}
+
+.nav-drawer::backdrop {
+  background: rgba(0, 43, 38, 0.62);
+}
+
+.nav-drawer__inner {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: var(--sp-5) var(--sp-6) calc(var(--sp-6) + env(safe-area-inset-bottom));
+}
+
+.nav-drawer__top {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: var(--sp-8);
+}
+
+.nav-drawer__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-inline-end: -0.5rem;
+  border-radius: var(--r-sm);
+  color: var(--on-navy);
+}
+
+.nav-drawer__close svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.nav-drawer nav ul {
+  display: grid;
+}
+
+.nav-drawer nav a {
+  display: block;
+  padding-block: var(--sp-4);
+  border-bottom: 1px solid var(--on-navy-line);
+  color: var(--on-navy);
+  font-size: 1.125rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.nav-drawer nav a[aria-current] {
+  color: var(--gold);
+}
+
+.nav-drawer__foot {
+  margin-top: auto;
+  padding-top: var(--sp-8);
+  display: grid;
+  gap: var(--sp-3);
+}
+
+/* ---------------------------------------------------------
+   7. Hero, fotografia sangrando, sem texto por cima
+   --------------------------------------------------------- */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  background: var(--navy);
+}
+
+.hero__media img {
+  width: 100%;
+  height: clamp(30rem, 84svh, 44rem);
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+/* Véu navy: garante contraste do texto sobre qualquer foto que o cliente
+   coloque, sem depender da sorte do enquadramento. */
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: var(--section-y-sm);
+  background: linear-gradient(
+    to right,
+    rgba(0, 58, 51, 0.9) 0%,
+    rgba(2, 132, 117, 0.78) 42%,
+    rgba(2, 132, 117, 0.3) 100%
+  );
+}
+
+.hero__text {
+  display: grid;
+  gap: var(--sp-5);
+  justify-items: start;
+  max-width: 34rem;
+  padding-top: var(--header-h);
+}
+
+.hero h1 {
+  color: var(--on-navy);
+}
+
+.hero__text p {
+  color: var(--on-navy-muted);
+  font-size: var(--fs-lead);
+  max-width: 44ch;
+}
+
+@media (min-width: 64rem) {
+  .hero__overlay {
+    align-items: center;
+    padding-bottom: 0;
+    background: linear-gradient(
+      to right,
+      rgba(0, 58, 51, 0.92) 0%,
+      rgba(2, 132, 117, 0.72) 46%,
+      rgba(2, 132, 117, 0.14) 100%
+    );
+  }
+  .hero__text {
+    padding-top: var(--header-h-lg);
+  }
+}
+
+/* ---------------------------------------------------------
+   8. Intro + cartão de formulário sobreposto
+   --------------------------------------------------------- */
+
+.intro {
+  padding-block: var(--section-y);
+}
+
+.intro__grid {
+  display: grid;
+  gap: var(--sp-8);
+}
+
+.intro__text {
+  display: grid;
+  gap: var(--sp-5);
+  justify-items: start;
+}
+
+.intro__text h2 {
+  max-width: 22ch;
+}
+
+.intro__text p {
+  max-width: 46ch;
+}
+
+.intro__points {
+  display: grid;
+  gap: var(--sp-3);
+  font-size: var(--fs-ui);
+}
+
+.intro__points li {
+  position: relative;
+  padding-left: var(--sp-6);
+  color: var(--body);
+}
+
+/* Marca redonda, não traço: o filete de 12px por 2px lia como
+   travessão na frente de cada item. */
+.intro__points li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 50%;
+  background: var(--gold-deep);
+}
+
+@media (min-width: 64rem) {
+  .intro__grid {
+    grid-template-columns: minmax(0, 1fr) 23rem;
+    gap: var(--sp-16);
+    align-items: start;
+  }
+  /* O cartão sobe e atravessa a foto do hero, como na referência.
+     position + z-index são obrigatórios: .hero é position:relative e, sem
+     eles, a foto é pintada por cima do cartão. */
+  .intro__card {
+    position: relative;
+    z-index: 1;
+    margin-top: -14rem;
+  }
+}
+
+/* ---------------------------------------------------------
+   Carrossel
+
+   Um componente só serve a faixa de credibilidade e os
+   depoimentos. Rolagem nativa com encaixe: sem biblioteca, e o
+   dedo continua funcionando mesmo se o JavaScript não carregar.
+   As setas são enfeite acessível por cima disso, e somem
+   sozinhas quando não há para onde rolar.
+   --------------------------------------------------------- */
+
+.carrossel {
+  position: relative;
+}
+
+.carrossel__trilho {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: var(--carrossel-item, 84%);
+  gap: var(--sp-4);
+  padding-inline: var(--carrossel-pad, 0);
+  padding-block: var(--sp-1);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  /* proximity, e não mandatory: com mandatory o navegador reencaixa o
+     trilho sozinho quando os cartões entram animados, e a seção abria
+     já deslocada, mostrando o segundo item cortado. */
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: var(--carrossel-pad, 0);
+  scrollbar-width: none;
+}
+
+.carrossel__trilho::-webkit-scrollbar {
+  display: none;
+}
+
+.carrossel__trilho > * {
+  scroll-snap-align: start;
+}
+
+.carrossel__setas {
+  display: flex;
+  justify-content: center;
+  gap: var(--sp-4);
+  margin-top: var(--sp-6);
+}
+
+.carrossel--parado .carrossel__setas {
+  display: none;
+}
+
+/* Quando nao ha o que rolar, os itens sobram de um lado so. Centralizar
+   resolve o caso de dois profissionais em tres vagas. */
+.carrossel--parado .carrossel__trilho {
+  justify-content: center;
+}
+
+.carrossel__seta {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--campo-linha);
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--gold-deep);
+  transition: color var(--t) var(--ease), border-color var(--t) var(--ease),
+    opacity var(--t) var(--ease), transform var(--t) var(--ease);
+}
+
+.carrossel__seta:hover {
+  border-color: var(--gold-deep);
+  transform: scale(1.06);
+}
+
+.carrossel__seta svg {
+  width: 1.375rem;
+  height: 1.375rem;
+}
+
+.carrossel__seta:disabled {
+  opacity: 0.35;
+  cursor: default;
+  transform: none;
+}
+
+.carrossel__seta:disabled:hover {
+  border-color: var(--campo-linha);
+  transform: none;
+}
+
+
+/* ---------------------------------------------------------
+   9. Faixa de imagens de credibilidade
+
+   No celular a faixa é carrossel e o texto fica visível de
+   partida. Sem ponteiro não existe hover, e antes disso a seção
+   mostrava quatro fotos e nenhuma informação, sem nada indicando
+   que dava para tocar. A revelação por hover volta a partir de
+   64rem, onde a faixa é grade de quatro colunas.
+   --------------------------------------------------------- */
+
+.strip {
+  --carrossel-item: 78%;
+  --carrossel-pad: var(--gutter);
+}
+
+.strip__item {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+}
+
+.strip__item img {
+  width: 100%;
+  height: clamp(15rem, 46vw, 22.5rem);
+  object-fit: cover;
+}
+
+.strip__body {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-10) var(--sp-5) var(--sp-5);
+  color: var(--on-navy);
+  /* Degradê no pé da foto. Onde o texto assenta o fundo chega a 0,94 de
+     opacidade sobre a imagem, o que garante branco acima de 9:1 mesmo em
+     foto clara. */
+  background: linear-gradient(
+    to top,
+    rgba(0, 43, 38, 0.94) 0%,
+    rgba(0, 43, 38, 0.82) 45%,
+    rgba(0, 43, 38, 0) 100%
+  );
+}
+
+.strip__body h3 {
+  color: var(--on-navy);
+  font-size: var(--fs-h3);
+}
+
+.strip__body p {
+  font-size: var(--fs-meta);
+  line-height: 1.6;
+  color: var(--on-navy);
+}
+
+.strip__item:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: -3px;
+}
+
+@media (min-width: 64rem) {
+  .strip {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    padding: 0;
+    overflow: visible;
+  }
+  .strip__item {
+    border-radius: 0;
+  }
+  .strip__body {
+    inset: 0;
+    justify-content: center;
+    gap: var(--sp-3);
+    padding: var(--sp-6) var(--sp-5);
+    text-align: center;
+    background: rgba(0, 43, 38, 0.8);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    transition: opacity var(--t) var(--ease);
+  }
+  .strip__body h3,
+  .strip__body p {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity var(--t) var(--ease), transform var(--t-slow) var(--ease);
+  }
+  .strip__body p {
+    max-width: 30ch;
+    margin-inline: auto;
+    transition-delay: 70ms;
+  }
+  .strip__item:hover .strip__body,
+  .strip__item:focus-visible .strip__body,
+  .strip__item:focus-within .strip__body,
+  .strip__item.is-aberto .strip__body {
+    opacity: 1;
+  }
+  .strip__item:hover .strip__body h3,
+  .strip__item:hover .strip__body p,
+  .strip__item:focus-within .strip__body h3,
+  .strip__item:focus-within .strip__body p,
+  .strip__item.is-aberto .strip__body h3,
+  .strip__item.is-aberto .strip__body p {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strip__body,
+  .strip__body h3,
+  .strip__body p {
+    transition: none;
+    transform: none;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   10. Bloco dividido, texto + imagem arredondada
+   --------------------------------------------------------- */
+
+.split {
+  display: grid;
+  gap: var(--sp-8);
+  align-items: center;
+}
+
+.split__text {
+  display: grid;
+  gap: var(--sp-5);
+  justify-items: start;
+}
+
+.split__text p {
+  max-width: 52ch;
+}
+
+.split__media img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--r-lg);
+}
+
+@media (min-width: 64rem) {
+  .split {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
+    gap: var(--sp-16);
+  }
+  .split--flip .split__media {
+    order: -1;
+  }
+}
+
+/* ---------------------------------------------------------
+   11. Abas de tratamento, pílulas + painel branco
+   --------------------------------------------------------- */
+
+/* Barra de seleção: setas douradas de cada lado e as pílulas no meio,
+   como no outro app. A lista rola na horizontal em vez de quebrar linha. */
+.tabs__bar {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.tabs__seta {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-pill);
+  color: var(--gold);
+  transition: color var(--t) var(--ease), opacity var(--t) var(--ease),
+    transform var(--t) var(--ease);
+}
+
+.tabs__seta:hover {
+  color: var(--gold-deep);
+  transform: scale(1.08);
+}
+
+.tabs__seta svg {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+/* Some quando não há para onde rolar, o JavaScript põe o atributo. */
+.tabs__seta:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.tabs__seta:disabled:hover {
+  color: var(--gold-deep);
+  transform: none;
+}
+
+.tabs__list {
+  display: flex;
+  gap: var(--sp-4);
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x proximity;
+  padding-block: var(--sp-2) var(--sp-6);
+  scrollbar-width: none;
+}
+
+.tabs__list::-webkit-scrollbar {
+  display: none;
+}
+
+.tabs__list li {
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+}
+
+.tabs__btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: var(--sp-3) var(--sp-6);
+  border-radius: var(--r-tab);
+  background: var(--navy-400);
+  color: var(--navy);
+  font-size: var(--fs-ui);
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color var(--t) var(--ease), color var(--t) var(--ease);
+}
+
+.tabs__btn:hover {
+  background: var(--navy-700);
+  color: var(--on-navy);
+}
+
+.tabs__btn[aria-selected='true'] {
+  background: var(--navy);
+  color: var(--on-navy);
+  font-weight: 600;
+}
+
+/* O filete que desce da pílula ativa até o painel. */
+.tabs__btn[aria-selected='true']::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 2px;
+  height: var(--sp-6);
+  background: var(--navy);
+}
+
+.tabs__panel {
+  /* Travada pelo painel mais alto: a caixa nao muda de tamanho ao
+     trocar de tratamento. O valor vem do JavaScript. */
+  min-height: var(--painel-h, auto);
+  background: var(--surface);
+  border-radius: var(--r-xl);
+  padding: var(--sp-6) var(--sp-5);
+}
+
+.tabs__panel[hidden] {
+  display: none;
+}
+
+.tabs__inner {
+  display: grid;
+  gap: var(--sp-8);
+  align-items: start;
+}
+
+.tabs__inner .prose h3 {
+  margin-top: var(--sp-8);
+}
+
+.tabs__inner .prose > h3:first-child {
+  margin-top: 0;
+}
+
+.tabs__side {
+  display: grid;
+  gap: var(--sp-5);
+}
+
+.tabs__side img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--r-lg);
+}
+
+.tabs__side .aside-card h4 {
+  font-size: var(--fs-h3);
+}
+
+@media (min-width: 64rem) {
+  .tabs__panel {
+    padding: var(--sp-12) var(--sp-10);
+  }
+  .tabs__inner {
+    grid-template-columns: minmax(0, 1fr) 19rem;
+    gap: var(--sp-12);
+  }
+  .tabs__side {
+    position: sticky;
+    top: calc(var(--header-h-lg) + var(--sp-4));
+  }
+}
+
+
+/* ---------------------------------------------------------
+   12. Banner de largura total
+   --------------------------------------------------------- */
+
+.banner {
+  position: relative;
+  isolation: isolate;
+}
+
+.banner img {
+  width: 100%;
+  height: clamp(20rem, 46vw, 35rem);
+  object-fit: cover;
+}
+
+.banner__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(
+    to right,
+    rgba(0, 58, 51, 0.9) 0%,
+    rgba(2, 132, 117, 0.68) 48%,
+    rgba(2, 132, 117, 0.16) 100%
+  );
+}
+
+.banner__text {
+  display: grid;
+  gap: var(--sp-6);
+  justify-items: start;
+  max-width: 30rem;
+}
+
+.banner__text h2 {
+  color: var(--on-navy);
+}
+
+/* ---------------------------------------------------------
+   13. Cards de estética
+   --------------------------------------------------------- */
+
+/* Check-ups e estética viram carrossel em qualquer largura: são seis
+   cartões em cada, e em grade isso empilhava duas fileiras altas. */
+.cards {
+  --carrossel-item: 84%;
+  gap: var(--sp-5);
+}
+
+@media (min-width: 48rem) {
+  .cards {
+    --carrossel-item: 46%;
+  }
+}
+
+@media (min-width: 64rem) {
+  .cards {
+    --carrossel-item: 31%;
+  }
+}
+
+.card {
+  display: grid;
+  gap: var(--sp-3);
+  height: 100%;
+  align-content: start;
+  padding: var(--sp-6);
+  border: 1px solid var(--navy);
+  border-radius: var(--r-lg);
+  background: transparent;
+  color: var(--body);
+  text-decoration: none;
+  transition: background-color var(--t) var(--ease), color var(--t) var(--ease);
+}
+
+.card__glyph {
+  width: 30px;
+  height: 42px;
+  color: var(--navy);
+  transition: color var(--t) var(--ease);
+}
+
+.card h3 {
+  font-size: var(--fs-card);
+  transition: color var(--t) var(--ease);
+}
+
+.card p {
+  font-size: var(--fs-ui);
+  color: var(--muted);
+  transition: color var(--t) var(--ease);
+}
+
+.card:hover,
+.card:focus-visible {
+  background: var(--navy);
+  color: var(--on-navy);
+}
+
+.card:hover h3,
+.card:focus-visible h3,
+.card:hover .card__glyph,
+.card:focus-visible .card__glyph {
+  color: var(--on-navy);
+}
+
+.card:hover p,
+.card:focus-visible p {
+  color: var(--on-navy-muted);
+}
+
+/* ---------------------------------------------------------
+   14. Equipe, foto e placa navy
+   --------------------------------------------------------- */
+
+/* A equipe também é carrossel. Com dois profissionais o trilho não rola
+   e as setas somem sozinhas; quando a clínica crescer, rola. */
+.people {
+  --carrossel-item: 74%;
+  gap: var(--sp-5);
+}
+
+@media (min-width: 48rem) {
+  .people {
+    --carrossel-item: 46%;
+  }
+}
+
+@media (min-width: 64rem) {
+  .people {
+    --carrossel-item: 31%;
+  }
+}
+
+/* ---------------------------------------------------------
+   Cartão de profissional e o modal de formação
+
+   O cartão inteiro é a área de clique, mas quem recebe o foco é um
+   botão só, dentro do <h3>: o ::after esticado cobre o cartão sem
+   criar dois alvos de teclado nem aninhar interativo dentro de
+   interativo. O conteúdo do modal vem no HTML entregue, então o
+   buscador lê a formação e, sem JavaScript, o <dialog> vira um bloco
+   comum logo abaixo da seção.
+   --------------------------------------------------------- */
+
+.person__abre {
+  color: inherit;
+  font: inherit;
+  text-align: center;
+}
+
+.person__abre::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r-lg);
+}
+
+.person__abre:focus-visible {
+  outline: none;
+}
+
+.person:has(.person__abre:focus-visible) {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.person__ver {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-3);
+  color: var(--gold);
+  font-size: var(--fs-ui);
+  font-weight: 600;
+}
+
+.person__ver svg {
+  width: 1rem;
+  height: 1rem;
+  transition: transform var(--t) var(--ease);
+}
+
+.person:hover .person__ver svg {
+  transform: translateX(3px);
+}
+
+/* Estado de partida, sem JavaScript: o <dialog> nasce com `open` e é um
+   bloco comum abaixo da seção da equipe, com a formação legível. Quando
+   o JavaScript confirma que pode, ele fecha e passa a abrir em modal.
+   Esconder é papel do script; revelar, nunca. */
+.pessoa {
+  display: block;
+  width: 100%;
+  max-width: var(--container);
+  margin: var(--sp-6) auto;
+  padding: 0;
+  border: 0;
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  color: var(--body);
+  box-shadow: var(--shadow-2);
+}
+
+.pessoa:not([open]) {
+  display: none;
+}
+
+.pessoa:modal {
+  width: min(46rem, calc(100vw - 2 * var(--gutter)));
+  max-width: none;
+  max-height: calc(100vh - 2 * var(--sp-8));
+  margin: auto;
+  overflow: auto;
+  box-shadow: var(--shadow-3);
+}
+
+.pessoa:not(:modal) .pessoa__fechar {
+  display: none;
+}
+
+.pessoa::backdrop {
+  background: rgba(0, 43, 38, 0.62);
+}
+
+.pessoa__inner {
+  position: relative;
+  display: grid;
+  gap: var(--sp-6);
+  padding: var(--sp-6);
+}
+
+.pessoa__fechar {
+  position: absolute;
+  top: var(--sp-4);
+  right: var(--sp-4);
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.pessoa__fechar svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.pessoa__foto {
+  width: 100%;
+  max-width: 15rem;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--r-lg);
+}
+
+.pessoa__texto {
+  display: grid;
+  gap: var(--sp-3);
+  align-content: start;
+}
+
+.pessoa__texto h2 {
+  font-size: var(--fs-h2);
+  padding-right: var(--sp-10);
+}
+
+.pessoa__texto h3 {
+  margin-top: var(--sp-2);
+  font-size: var(--fs-h3);
+}
+
+.pessoa__texto .person__role {
+  color: var(--gold-deep);
+  font-weight: 600;
+}
+
+.pessoa__texto .person__cro {
+  color: var(--muted);
+}
+
+.pessoa__formacao {
+  display: grid;
+  gap: var(--sp-2);
+}
+
+.pessoa__formacao li {
+  position: relative;
+  padding-left: var(--sp-6);
+  font-size: var(--fs-ui);
+}
+
+.pessoa__formacao li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 50%;
+  background: var(--gold-deep);
+}
+
+.pessoa__texto .btn {
+  justify-self: start;
+  margin-top: var(--sp-3);
+}
+
+@media (min-width: 48rem) {
+  .pessoa__inner {
+    grid-template-columns: 15rem minmax(0, 1fr);
+    gap: var(--sp-8);
+    padding: var(--sp-8);
+  }
+}
+
+.person {
+  /* Obrigatório: o ::after do botão se estica contra o ancestral
+     posicionado mais próximo. Sem isto ele cobria a seção inteira e o
+     primeiro cartão engolia o clique dos outros. */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--navy);
+}
+
+.person__photo {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+.person__body {
+  display: grid;
+  gap: var(--sp-1);
+  flex: 1;
+  padding: var(--sp-5) var(--sp-4);
+  text-align: center;
+}
+
+.person__body h3 {
+  color: var(--on-navy);
+  font-size: 1.0625rem;
+}
+
+.person__role {
+  font-size: var(--fs-ui);
+  color: var(--on-navy-muted);
+}
+
+.person__cro {
+  font-size: var(--fs-meta);
+  font-variant-numeric: tabular-nums;
+  color: var(--gold);
+}
+
+.person__bio {
+  margin-top: var(--sp-2);
+  font-size: var(--fs-meta);
+  color: var(--on-navy-muted);
+  text-align: left;
+}
+
+.person__edu {
+  display: grid;
+  gap: var(--sp-2);
+  margin-top: var(--sp-3);
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--on-navy-line);
+  font-size: var(--fs-meta);
+  color: var(--on-navy-muted);
+  text-align: left;
+}
+
+.person__body .btn,
+.person__body .arrow-link {
+  margin-top: var(--sp-4);
+  justify-self: center;
+}
+
+.person__body .arrow-link,
+.person__body .arrow-link svg {
+  /* Sobre a placa escura o acento volta ao turquesa cheio. */
+  color: var(--gold);
+}
+
+/* ---------------------------------------------------------
+   15. Faixa de depoimentos
+   --------------------------------------------------------- */
+
+.proof {
+  background: var(--navy-900);
+  color: var(--on-navy-muted);
+  padding-block: var(--section-y);
+}
+
+.proof .section-head h2 {
+  color: var(--on-navy);
+}
+
+.proof .quote {
+  background: transparent;
+  border: 1px solid var(--on-navy-line);
+  padding: var(--sp-6);
+}
+
+.proof .quote blockquote {
+  color: var(--on-navy);
+}
+
+.proof .quote figcaption {
+  border-top-color: var(--on-navy-line);
+  color: var(--on-navy-muted);
+}
+
+.proof .quote__who {
+  color: var(--on-navy);
+}
+
+.proof .quote__initials {
+  background: rgba(1, 112, 95, 0.14);
+  color: var(--gold-deep);
+}
+
+/* ---------------------------------------------------------
+   16. Contato, mapa, faixa navy e cartão sobreposto
+   --------------------------------------------------------- */
+
+.contact {
+  position: relative;
+  background: var(--navy);
+}
+
+.contact__map {
+  position: relative;
+  height: clamp(15rem, 38vw, 26rem);
+  background: var(--navy-900);
+}
+
+.contact__map iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  filter: saturate(0.9);
+}
+
+.contact__title {
+  padding-block: var(--section-y-sm) var(--sp-8);
+}
+
+.contact__title h2 {
+  color: var(--on-navy);
+  max-width: 34ch;
+}
+
+.contact__body {
+  display: grid;
+  gap: var(--sp-8);
+  padding-block: var(--section-y);
+  color: var(--on-navy-muted);
+}
+
+.contact__info {
+  display: grid;
+  gap: var(--sp-5);
+  align-content: start;
+}
+
+.contact__info dt {
+  font-weight: 700;
+  color: var(--on-navy);
+  font-size: var(--fs-ui);
+}
+
+.contact__info dd {
+  margin: 0;
+  font-size: var(--fs-ui);
+  line-height: 1.6;
+}
+
+.contact__info a {
+  color: var(--on-navy-muted);
+  text-decoration-color: rgba(255, 255, 255, 0.4);
+}
+
+.contact__info a:hover {
+  color: var(--on-navy);
+}
+
+/* Os círculos de rede têm cor própria. Sem isto, a regra genérica de link
+   desta coluna (e a do rodapé) pinta o ícone de azul-claro sobre o círculo
+   branco: 1,4:1, praticamente invisível. */
+.contact__info .icon-circles a,
+.footer-grid .icon-circles a {
+  color: var(--gold-deep);
+}
+
+.contact__info .icon-circles a:hover,
+.footer-grid .icon-circles a:hover {
+  color: var(--navy);
+}
+
+@media (min-width: 64rem) {
+  .contact__body {
+    grid-template-columns: minmax(0, 1fr) 24rem;
+    gap: var(--sp-16);
+    align-items: start;
+  }
+}
+
+/* ---------------------------------------------------------
+   17. Formulário
+   --------------------------------------------------------- */
+
+.form {
+  display: grid;
+  gap: var(--sp-4);
+}
+
+.form-card {
+  background: var(--surface);
+  border-radius: var(--r-xl);
+  padding: var(--sp-8);
+  color: var(--body);
+  box-shadow: var(--shadow-2);
+}
+
+.form-card__title {
+  display: grid;
+  gap: var(--sp-1);
+  margin-bottom: var(--sp-5);
+  text-align: center;
+}
+
+.form-card__title p {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.field {
+  display: grid;
+  gap: 0.375rem;
+}
+
+.field > label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  /* A entrelinha de corpo (1,65) dava 23px de altura a cada rótulo. Um
+     rótulo é uma linha só: 1,3 basta e devolve 5px por campo. */
+  line-height: 1.3;
+  color: var(--body);
+}
+
+.field__hint {
+  font-size: var(--fs-meta);
+  color: var(--muted);
+  font-weight: 400;
+}
+
+/* Campos com filete inferior, o estilo da referência. */
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  /* 44px é o piso de alvo de toque. Quem define a altura aqui é o
+     padding somado à entrelinha, não o min-height: com 12px em cima e
+     embaixo o campo ia a 52px e ficava maior que o próprio botão. */
+  min-height: 44px;
+  padding: var(--sp-2) var(--sp-4);
+  background: var(--campo-bg);
+  /* Campo fechado em caixa. Só com o filete embaixo, o campo vazio
+     virava um vão de 42px entre o rótulo e a linha: o par não lia como
+     uma coisa só. A borda dá 3,15:1 no cartão branco, que é o mínimo
+     para fronteira de componente. */
+  border: 1px solid var(--campo-linha);
+  border-radius: var(--r-md);
+  color: var(--ink);
+  font-size: 1rem;
+  transition: border-color var(--t-fast) var(--ease),
+    background-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+}
+
+
+.field textarea {
+  min-height: 3.5rem;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.field select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 18px) 1.2rem, calc(100% - 12px) 1.2rem;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: var(--sp-8);
+}
+
+/* ---- Select próprio ----
+   O <select> nativo fica no DOM guardando o valor; some da tela e do
+   leitor de tela assim que o JavaScript monta a listbox por cima. */
+.select {
+  position: relative;
+}
+
+.select__nativo {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  border: 0;
+}
+
+.select__botao {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  width: 100%;
+  min-height: 44px;
+  padding: var(--sp-2) var(--sp-4);
+  background: var(--campo-bg);
+  border: 1px solid var(--campo-linha);
+  border-radius: var(--r-md);
+  color: var(--ink);
+  font-size: 1rem;
+  text-align: left;
+  transition: border-color var(--t-fast) var(--ease),
+    background-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+}
+
+.select__botao:hover {
+  border-bottom-color: var(--navy);
+}
+
+.select__botao[aria-expanded='true'] {
+  border-bottom-color: var(--gold);
+  box-shadow: 0 1px 0 0 var(--gold);
+}
+
+/* Enquanto nada foi escolhido, o rótulo do valor lê como placeholder. */
+.select.is-vazio .select__valor {
+  color: var(--muted);
+}
+
+.select__valor {
+  /* Sem isto, um procedimento de nome comprido quebra em duas linhas e o
+     campo cresce, ficando mais alto que os vizinhos. */
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.select__seta {
+  flex: none;
+  width: 1.125rem;
+  height: 1.125rem;
+  color: var(--gold-deep);
+  transition: transform var(--t) var(--ease);
+}
+
+.select__botao[aria-expanded='true'] .select__seta {
+  transform: rotate(180deg);
+}
+
+.select__lista {
+  position: absolute;
+  z-index: var(--z-sticky);
+  inset-inline: 0;
+  top: calc(100% + var(--sp-2));
+  max-height: 15rem;
+  overflow-y: auto;
+  padding: var(--sp-2);
+  background: var(--surface);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-3);
+  animation: abreLista var(--t-fast) var(--ease) both;
+}
+
+.select__lista[hidden] {
+  display: none;
+}
+
+@keyframes abreLista {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.select__item {
+  padding: var(--sp-3) var(--sp-3);
+  border-radius: var(--r-sm);
+  color: var(--body);
+  font-size: var(--fs-ui);
+  line-height: 1.4;
+  cursor: pointer;
+  transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+
+.select__item:hover,
+.select__item:focus-visible {
+  background: var(--navy-050);
+  color: var(--ink);
+  outline: none;
+}
+
+.select__item[aria-selected='true'] {
+  background: var(--navy);
+  color: var(--on-navy);
+  font-weight: 600;
+}
+
+.select__item:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--gold);
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: var(--muted);
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus,
+.select__botao:focus-visible,
+.select__botao[aria-expanded='true'] {
+  outline: none;
+  background: var(--surface);
+  border-color: var(--gold-deep);
+  box-shadow: 0 0 0 3px var(--gold-soft);
+}
+
+.field input[aria-invalid='true'],
+.field textarea[aria-invalid='true'],
+.field select[aria-invalid='true'] {
+  border-color: var(--error);
+  background: var(--error-bg);
+}
+
+.field__error {
+  display: none;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  color: var(--error);
+}
+
+.field__error svg {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+}
+
+.field.has-error .field__error,
+.field__error.is-shown {
+  display: flex;
+}
+
+/* Honeypot anti-spam, invisível para gente, presente para robô */
+.field--trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+
+
+.form__consent {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--sp-3);
+  align-items: start;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.form__consent input {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.05rem;
+  accent-color: var(--navy);
+}
+
+/* Compactação no ponteiro fino.
+
+   Os 44px de altura e o corpo de 16px existem por causa do dedo: abaixo
+   disso o alvo fica pequeno para toque, e menos de 16px faz o iOS dar
+   zoom sozinho ao focar o campo. Onde há ponteiro fino nada disso vale.
+
+   Este bloco precisa vir DEPOIS de `.select__botao`: media query não
+   soma especificidade, então declarado antes ele perdia, e o select
+   ficava em 16px e 44px enquanto o resto do formulário estava em 14px
+   e 38px. Era a diferença que saltava aos olhos no cartão. */
+@media (pointer: fine) {
+  .field input,
+  .field select,
+  .field textarea,
+  .select__botao,
+  .select__valor {
+    min-height: 36px;
+    padding: var(--sp-1) var(--sp-3);
+    font-size: 0.8125rem;
+  }
+  .select__valor {
+    min-height: 0;
+    padding: 0;
+  }
+  .field textarea {
+    min-height: 2.75rem;
+    padding: var(--sp-2) var(--sp-3);
+  }
+  .field > label {
+    font-size: 0.75rem;
+  }
+  .form .btn--block {
+    min-height: 38px;
+    font-size: 0.8125rem;
+  }
+  .form__consent {
+    font-size: 0.75rem;
+  }
+  .select__item {
+    padding: var(--sp-2) var(--sp-3);
+    font-size: 0.8125rem;
+  }
+}
+
+.form-card a,
+.band .form-card a,
+.contact .form-card a {
+  color: var(--navy);
+  font-weight: 500;
+}
+
+.form-card a:hover {
+  color: var(--gold-deep);
+}
+
+.form__status {
+  display: none;
+  gap: var(--sp-3);
+  align-items: start;
+  padding: var(--sp-4);
+  border-radius: var(--r-sm);
+  font-size: var(--fs-ui);
+}
+
+.form__status[data-state='ok'] {
+  display: flex;
+  background: var(--gold-soft);
+  color: #6b4e12;
+}
+
+.form__status[data-state='error'] {
+  display: flex;
+  background: var(--error-bg);
+  color: var(--error);
+}
+
+.btn[aria-busy='true'] {
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------
+   18. Páginas internas
+   --------------------------------------------------------- */
+
+.page-head {
+  background: var(--navy);
+  color: var(--on-navy-muted);
+  padding-top: calc(var(--header-h) + var(--sp-8));
+  padding-bottom: var(--section-y-sm);
+}
+
+.page-head h1 {
+  color: var(--on-navy);
+  max-width: 20ch;
+}
+
+.page-head .lead {
+  color: var(--on-navy-muted);
+  margin-top: var(--sp-4);
+}
+
+.breadcrumb {
+  margin-bottom: var(--sp-5);
+  font-size: var(--fs-meta);
+  color: var(--on-navy-muted);
+}
+
+.breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.breadcrumb a {
+  color: var(--on-navy-muted);
+  text-decoration-color: rgba(255, 255, 255, 0.4);
+}
+
+.breadcrumb a:hover {
+  color: var(--on-navy);
+}
+
+.breadcrumb li:not(:last-child)::after {
+  content: '/';
+  margin-inline-start: var(--sp-2);
+  opacity: 0.5;
+}
+
+.treatment-body {
+  display: grid;
+  gap: var(--sp-10);
+}
+
+.treatment-body__media img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--r-lg);
+}
+
+.aside-card {
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  padding: var(--sp-6);
+  display: grid;
+  gap: var(--sp-4);
+}
+
+.aside-card h3 {
+  font-size: var(--fs-card);
+}
+
+@media (min-width: 64rem) {
+  .treatment-body {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
+    gap: var(--sp-12);
+    align-items: start;
+  }
+  .treatment-body__side {
+    position: sticky;
+    top: calc(var(--header-h) + var(--sp-4));
+    display: grid;
+    gap: var(--sp-5);
+  }
+}
+
+/* Lista de tratamentos */
+.treatment-list {
+  display: grid;
+  gap: var(--sp-3);
+}
+
+.treatment-list a {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) 1.25rem;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-5);
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  color: inherit;
+  text-decoration: none;
+  transition: background-color var(--t) var(--ease), color var(--t) var(--ease);
+}
+
+.treatment-list a:hover {
+  background: var(--navy);
+  color: var(--on-navy);
+}
+
+.treatment-list__n {
+  font-size: var(--fs-meta);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--gold-deep);
+}
+
+.treatment-list a:hover .treatment-list__n,
+.treatment-list a:hover svg {
+  /* No hover o fundo vira escuro, entao o acento volta ao turquesa. */
+  color: var(--gold);
+}
+
+.treatment-list__title {
+  display: block;
+  font-size: var(--fs-card);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.treatment-list__desc {
+  display: block;
+  margin-top: var(--sp-1);
+  font-size: var(--fs-ui);
+  color: var(--muted);
+}
+
+.treatment-list a:hover .treatment-list__title,
+.treatment-list a:hover .treatment-list__desc {
+  color: var(--on-navy);
+}
+
+.treatment-list svg {
+  width: 1.125rem;
+  height: 1.125rem;
+  color: var(--gold-deep);
+  transition: transform var(--t) var(--ease);
+}
+
+.treatment-list a:hover svg {
+  transform: translateX(3px);
+}
+
+/* Passo a passo numerado */
+.steps {
+  display: grid;
+  gap: var(--sp-6);
+  counter-reset: step;
+}
+
+.steps li {
+  position: relative;
+  padding-left: var(--sp-10);
+  counter-increment: step;
+}
+
+.steps li::before {
+  content: counter(step, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  font-size: var(--fs-meta);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--gold);
+}
+
+.steps h3,
+.steps h4 {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  margin-bottom: var(--sp-1);
+}
+
+.steps p {
+  font-size: var(--fs-ui);
+  color: var(--muted);
+  max-width: 56ch;
+}
+
+/* FAQ */
+.faq {
+  display: grid;
+  gap: var(--sp-3);
+  max-width: 62ch;
+}
+
+.faq details {
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  padding-inline: var(--sp-5);
+}
+
+.faq summary {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding-block: var(--sp-5);
+  cursor: pointer;
+  list-style: none;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq summary::after {
+  content: '';
+  flex: none;
+  width: 0.7rem;
+  height: 0.7rem;
+  margin-top: 0.45rem;
+  border-right: 2px solid var(--gold);
+  border-bottom: 2px solid var(--gold);
+  transform: rotate(45deg);
+  transition: transform var(--t) var(--ease);
+}
+
+.faq details[open] summary::after {
+  transform: rotate(-135deg);
+  margin-top: 0.6rem;
+}
+
+.faq details > div {
+  padding-bottom: var(--sp-5);
+  color: var(--muted);
+}
+
+/* Galeria: uma foto grande e três ao lado. No celular a grande vai
+   em cima e as três dividem a linha de baixo. */
+.gallery {
+  display: grid;
+  gap: var(--sp-3);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.gallery li {
+  position: relative;
+}
+
+.gallery img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: var(--r-lg);
+}
+
+.gallery li:first-child {
+  grid-column: 1 / -1;
+}
+
+.gallery li:first-child img {
+  aspect-ratio: 16 / 10;
+}
+
+@media (min-width: 48rem) {
+  .gallery {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: var(--sp-4);
+  }
+  .gallery li:first-child {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+  }
+  .gallery li:first-child img {
+    aspect-ratio: 1 / 1;
+  }
+  /* A grande dita a altura; as três dividem essa altura por igual. */
+  .gallery li:not(:first-child) img {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: auto;
+    object-position: center 30%;
+  }
+}
+
+/* Jornada do paciente: linha do tempo numerada, texto e fotos por etapa. */
+.jornada {
+  display: grid;
+  gap: var(--sp-12);
+  counter-reset: passo;
+}
+
+.jornada__passo {
+  --marca: 2.5rem;
+  position: relative;
+  display: grid;
+  gap: var(--sp-5);
+  padding-left: calc(var(--marca) + var(--sp-4));
+  counter-increment: passo;
+}
+
+.jornada__passo::before {
+  content: counter(passo, decimal-leading-zero);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--marca);
+  height: var(--marca);
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--on-navy);
+  font-size: var(--fs-meta);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* O fio desce do número até o número da etapa seguinte. */
+.jornada__passo::after {
+  content: '';
+  position: absolute;
+  top: var(--marca);
+  bottom: calc(-1 * var(--sp-12));
+  left: calc(var(--marca) / 2 - 1px);
+  width: 2px;
+  background: var(--line);
+}
+
+.jornada__passo:last-child::after {
+  display: none;
+}
+
+.jornada__texto {
+  padding-top: 0.4rem;
+}
+
+.jornada__texto h3 {
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+.jornada__texto p {
+  max-width: 44ch;
+}
+
+.jornada__fotos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-3);
+}
+
+.jornada__fotos img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--r-lg);
+}
+
+.jornada__fotos img:only-child {
+  grid-column: 1 / -1;
+  aspect-ratio: 16 / 10;
+}
+
+@media (min-width: 64rem) {
+  .jornada__passo {
+    --marca: 3rem;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: var(--sp-10);
+    align-items: start;
+    padding-left: calc(var(--marca) + var(--sp-6));
+  }
+  .jornada__texto {
+    padding-top: 0.6rem;
+  }
+  .jornada__fotos {
+    gap: var(--sp-4);
+  }
+}
+
+/* Depoimentos */
+/* Os depoimentos são carrossel em qualquer largura. Com seis avaliações,
+   a grade empilhava três fileiras e obrigava a rolar a página inteira
+   para ver a última. */
+.quotes {
+  --carrossel-item: 84%;
+  gap: var(--sp-5);
+}
+
+@media (min-width: 48rem) {
+  .quotes {
+    --carrossel-item: 46%;
+  }
+}
+
+@media (min-width: 64rem) {
+  .quotes {
+    --carrossel-item: 31%;
+  }
+}
+
+.quote {
+  height: 100%;
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  padding: var(--sp-6);
+}
+
+.quote blockquote {
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.quote figcaption {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-top: var(--sp-5);
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--line);
+  font-size: var(--fs-meta);
+  color: var(--muted);
+}
+
+.quote__initials {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--r-pill);
+  background: var(--gold-soft);
+  color: #6b4e12;
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.quote__who {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* Lista de argumentos e horários */
+.pillars {
+  display: grid;
+  gap: var(--sp-5);
+  /* O 1fr dava a linha inteira ao cartão quando havia um só: uma clínica
+     com um profissional exibia a foto dele a mais de mil pixels. O teto na
+     coluna mantém o cartão do mesmo tamanho, tendo um ou seis.
+     Aqui o teto é 20rem, e não 22rem, porque a Concepto tem seis check-ups
+     e seis cartões de estética: com 22rem o auto-fit só cabia duas colunas
+     e sobrava um vão morto à direita. Com 20rem fecha em três. */
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 20rem));
+  justify-content: center;
+}
+
+.pillars > li {
+  padding: var(--sp-6);
+  border-radius: var(--r-lg);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.pillars h3 {
+  font-size: var(--fs-card);
+  color: var(--on-navy);
+  margin-bottom: var(--sp-2);
+}
+
+.pillars p {
+  font-size: var(--fs-ui);
+  color: var(--on-navy-muted);
+}
+
+.hours {
+  display: grid;
+  gap: var(--sp-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.hours div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-6);
+  max-width: 22rem;
+  font-size: var(--fs-ui);
+}
+
+.hours dt {
+  margin: 0;
+  font-weight: 500;
+}
+
+.contact-grid {
+  display: grid;
+  gap: var(--sp-8);
+}
+
+.contact-list {
+  display: grid;
+  gap: var(--sp-5);
+}
+
+.contact-list dt {
+  font-size: var(--fs-meta);
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: var(--sp-1);
+}
+
+.contact-list dd {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.map {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.map iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+@media (min-width: 64rem) {
+  .contact-grid {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: var(--sp-12);
+    align-items: start;
+  }
+}
+
+.convert {
+  display: grid;
+  gap: var(--sp-8);
+}
+
+.convert__aside {
+  display: grid;
+  gap: var(--sp-5);
+  align-content: start;
+}
+
+.convert__list {
+  display: grid;
+  gap: var(--sp-3);
+  font-size: var(--fs-ui);
+}
+
+.convert__list li {
+  position: relative;
+  padding-left: var(--sp-6);
+  color: var(--on-navy-muted);
+}
+
+.convert__list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 0.75rem;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--gold);
+}
+
+@media (min-width: 64rem) {
+  .convert {
+    grid-template-columns: minmax(0, 1fr) 24rem;
+    gap: var(--sp-12);
+    align-items: start;
+  }
+}
+
+/* ---------------------------------------------------------
+   19. Rodapé
+   --------------------------------------------------------- */
+
+.site-footer {
+  background: var(--bg);
+  padding-block: var(--sp-12) var(--sp-8);
+  font-size: var(--fs-ui);
+}
+
+.footer-grid {
+  display: grid;
+  gap: var(--sp-8);
+  text-align: center;
+  justify-items: center;
+}
+
+.footer-grid h3 {
+  font-size: var(--fs-ui);
+  margin-bottom: var(--sp-3);
+}
+
+.footer-grid ul {
+  display: grid;
+  gap: var(--sp-2);
+}
+
+.footer-grid a {
+  color: var(--body);
+  text-decoration: none;
+}
+
+.footer-grid a:hover {
+  color: var(--gold-deep);
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  display: grid;
+  gap: var(--sp-2);
+  margin-top: var(--sp-10);
+  padding-top: var(--sp-5);
+  border-top: 1px solid var(--line);
+  font-size: var(--fs-meta);
+  color: var(--muted);
+  text-align: center;
+}
+
+/* O botao flutuante fica no canto inferior direito. No celular o rodape e
+   centralizado e ocupa a largura toda, entao so sai de baixo dele com
+   respiro; no desktop basta afastar a coluna da direita. */
+@media (max-width: 47.9375rem) {
+  .footer-bottom {
+    padding-bottom: calc(4.5rem + env(safe-area-inset-bottom));
+  }
+}
+
+@media (min-width: 48rem) {
+  .footer-bottom {
+    padding-inline-end: 5.5rem;
+  }
+}
+
+@media (min-width: 48rem) {
+  .footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    text-align: left;
+    justify-items: start;
+  }
+}
+
+@media (min-width: 64rem) {
+  .footer-grid {
+    grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+  }
+}
+
+/* ---------------------------------------------------------
+   20. Contato fixo
+   --------------------------------------------------------- */
+
+/* Botão flutuante do WhatsApp, o mesmo em toda largura de tela.
+   Substituiu a barra fixa que ocupava a base inteira no celular. */
+.wa-float {
+  position: fixed;
+  right: var(--sp-5);
+  bottom: calc(var(--sp-5) + env(safe-area-inset-bottom));
+  z-index: var(--z-float);
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--whatsapp-ink);
+  text-decoration: none;
+  box-shadow: var(--shadow-3);
+  transition: transform var(--t) var(--ease);
+}
+
+.wa-float:hover {
+  color: var(--whatsapp-ink);
+  transform: translateY(-2px);
+}
+
+.wa-float svg {
+  width: 2.125rem;
+  height: 2.125rem;
+}
+
+/* O rótulo existe para o leitor de tela; na tela quem fala é o ícone. */
+.wa-float span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (min-width: 48rem) {
+  .wa-float {
+    right: var(--sp-6);
+    bottom: var(--sp-6);
+    width: 64px;
+    height: 64px;
+  }
+  .wa-float svg {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   21. Movimento
+   --------------------------------------------------------- */
+
+/* Entrada do hero, no load. Não depende de scroll nem de observer. */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal > * {
+    animation: sobe var(--t-slow) var(--ease) both;
+  }
+  .reveal > *:nth-child(2) {
+    animation-delay: 90ms;
+  }
+  .reveal > *:nth-child(3) {
+    animation-delay: 180ms;
+  }
+  .reveal > *:nth-child(4) {
+    animation-delay: 270ms;
+  }
+}
+
+@keyframes sobe {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Revelação no scroll.
+   O seletor exige data-anim="on" no <html>, que só o JavaScript coloca
+   depois de confirmar que dá para animar. Sem isso nada fica escondido. */
+html[data-anim='on'] [data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+html[data-anim='on'] [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--t-slow) var(--ease), transform var(--t-slow) var(--ease);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+
+/* Painel de tratamento entra com um leve crossfade a cada troca de aba. */
+@media (prefers-reduced-motion: no-preference) {
+  .tabs__panel {
+    animation: painel var(--t) var(--ease) both;
+  }
+}
+
+@keyframes painel {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Acordeão do FAQ com abertura suave onde o navegador já suporta.
+   Onde não suporta, abre instantâneo, como sempre fez. */
+@supports (interpolate-size: allow-keywords) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .faq details::details-content {
+      block-size: 0;
+      overflow: clip;
+      transition: block-size var(--t) var(--ease), content-visibility var(--t) allow-discrete;
+    }
+    .faq details[open]::details-content {
+      block-size: auto;
+    }
+  }
+}
+
+/* Micro-resposta ao ponteiro. Só transform e opacity. */
+.btn--primary:hover,
+.btn--navy:hover,
+.btn--wa:hover {
+  transform: translateY(-1px);
+}
+
+.card {
+  transition: background-color var(--t) var(--ease), color var(--t) var(--ease),
+    transform var(--t) var(--ease), border-color var(--t) var(--ease);
+}
+
+.card:hover,
+.card:focus-visible {
+  transform: translateY(-3px);
+}
+
+.split__media,
+.person__photo,
+.treatment-body__media,
+.gallery li {
+  overflow: hidden;
+  border-radius: var(--r-lg);
+}
+
+.split__media img,
+.person__photo,
+.gallery img {
+  transition: transform var(--t-slow) var(--ease);
+}
+
+.split__media:hover img,
+.person:hover .person__photo,
+.gallery li:hover img {
+  transform: scale(1.03);
+}
+
+.icon-circles a:hover {
+  transform: translateY(-2px);
+}
+
+.wa-float {
+  animation: flutua var(--t-slow) var(--ease) 400ms both;
+}
+
+@keyframes flutua {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Chave geral. Nada de movimento, e nada escondido. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  html[data-anim='on'] [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------
+   22. Impressão
+   --------------------------------------------------------- */
+
+@media print {
+  .site-header,
+  .wa-float,
+  .map,
+  .contact__map,
+  .form {
+    display: none !important;
+  }
+  body {
+    padding-bottom: 0;
+    color: #000;
+    background: #fff;
+  }
+}

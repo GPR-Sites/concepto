@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  TROCAR: o domínio de cada <loc> e a data de <lastmod>.
+  Ao criar uma página nova de tratamento, adicione a URL aqui.
+  `node tools/sync.mjs` atualiza o domínio automaticamente.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.conceptoodontologia.com.br/</loc>
+    <lastmod>2026-08-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.conceptoodontologia.com.br/sobre.html</loc>
+    <lastmod>2026-08-31</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+</urlset>

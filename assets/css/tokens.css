@@ -1,0 +1,162 @@
+/* ============================================================
+   TOKENS, camada de tema
+   Este é o ÚNICO arquivo de CSS que você edita para trocar de cliente.
+   Nada aqui é seletor de componente: só valores.
+
+   Concepto Saúde e Bem Estar. Paleta extraída do site anterior por
+   estilo computado, não amostrada de screenshot:
+
+     #028475  verde-petróleo institucional
+     #00b7a2  turquesa de acento
+     #005b51  verde escuro de texto
+     #e9e9e9  cinza de superfície
+     #393939  cinza de corpo
+     Montserrat
+
+   Como o template usa a cor institucional ao mesmo tempo como faixa
+   escura e como cor de texto, o #028475 puro não serve nos dois papéis:
+   como texto ele dá 4,22:1, abaixo do mínimo. Então a família ficou
+   assim, e o #028475 continua sendo a cor de maior área do site, no
+   véu do hero e nas superfícies de destaque.
+
+   Duas correções em relação ao site anterior, ambas medidas: o turquesa
+   como texto no branco dava 2,53:1 e sobre o verde dava 1,82:1. Aqui ele
+   só carrega texto sobre faixa escura, onde alcança 4,69:1.
+   ============================================================ */
+
+/* ---------- Fonte (auto-hospedada, sem conexão de terceiros) ----------
+   Montserrat variável, subset latino: um arquivo de 38 KB cobre os
+   quatro pesos. Latin-1 já traz todo o acento do português.           */
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('../fonts/montserrat-var.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  /* ---------- Cor da marca ---------- */
+
+  --navy-900: #002b26; /* faixas de máxima densidade */
+  --navy: #003f38; /* institucional: faixas, texto sobre claro, 10,2:1 */
+  --navy-700: #028475; /* o teal da marca: véu do hero e hover de superfície */
+  --navy-050: #e0f1ee; /* fundos frios sutis */
+  --navy-400: #7fada6; /* pílula inativa das abas: o rótulo --navy dá 4,77:1 */
+
+  --gold: #00b7a2; /* turquesa da marca. SÓ ação: botão e acento */
+  --gold-dark: #00a894; /* hover do botão, mantém o texto escuro em 4,77:1 */
+  --gold-deep: #01705f; /* o mesmo acento quando vira TEXTO em fundo claro */
+  --gold-soft: #dff4f0; /* fundo frio de destaque */
+
+  /* ---------- Superfície e texto ----------
+     Fundo puxado para o hue da marca em vez do cinza morto #e9e9e9 do
+     site anterior. A diferença é sutil e tira o aspecto encardido. */
+  --bg: #f1f6f5;
+  --surface: #ffffff;
+  --ink: #062b26; /* títulos, 13,9:1 sobre --bg */
+  --body: #3b4f4c; /* texto corrido, 8,0:1 */
+  --muted: #5b706d; /* secundário e filete de campo, 4,8:1 */
+  --line: #dbe6e4;
+
+  /* Campo de formulário. O filete precisa de 3:1 contra o cartão branco
+     para valer como fronteira de componente: #7a9793 dá 3,15:1. O
+     preenchimento é só para separar o campo do cartão, quem carrega o
+     contraste é a borda. */
+  --campo-bg: #f4f8f7;
+  --campo-linha: #7a9793;
+
+  --on-navy: #ffffff; /* 11,1:1 sobre --navy */
+  --on-navy-muted: #cfe9e4; /* 8,7:1 sobre --navy */
+  --on-navy-line: rgba(255, 255, 255, 0.18);
+
+  /* Verde bem escuro sobre o turquesa: 5,63:1. Branco daria 2,53:1. */
+  --on-gold: #00312b;
+
+  /* ---------- Semânticos ---------- */
+  --ok: #1a6f43;
+  --warn: #7d5a0d;
+  --error: #a81f18;
+  --error-bg: #fdeceb;
+
+  /* Verde oficial do WhatsApp. Reconhecimento de marca, não paleta. */
+  --whatsapp: #25d366;
+  --whatsapp-ink: #0b2e1a;
+
+  /* ---------- Tipografia ----------
+     Montserrat é a fonte do site anterior. Peso 700 no display, que é o
+     que ela aguenta em tamanho grande sem virar decoração. */
+  --font: 'Montserrat', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
+    Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  --fs-display: clamp(2rem, 1.45rem + 2.6vw, 3.25rem);
+  --fs-h2: clamp(1.4375rem, 1.2rem + 1.1vw, 2rem);
+  --fs-h3: 1.1875rem;
+  --fs-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+  --fs-body: 1rem;
+  --fs-ui: 0.9375rem;
+  --fs-meta: 0.875rem;
+
+  --lh-tight: 1.18;
+  --lh-body: 1.65;
+
+  /* ---------- Espaço ---------- */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.25rem;
+  --sp-6: 1.5rem;
+  --sp-8: 2rem;
+  --sp-10: 2.5rem;
+  --sp-12: 3rem;
+  --sp-16: 4rem;
+  --sp-24: 6rem;
+
+  --section-y: clamp(3.25rem, 2rem + 6vw, 6rem);
+  --section-y-lg: clamp(4.25rem, 2.5rem + 8vw, 8rem);
+  --section-y-sm: clamp(2rem, 1.25rem + 3.5vw, 3.5rem);
+
+  --container: 68rem;
+  --container-wide: 78rem;
+  --container-text: 42rem;
+  --gutter: clamp(1.25rem, 5vw, 2.5rem);
+
+  --header-h: 4.5rem;
+  --header-h-lg: 5.5rem;
+
+  /* ---------- Forma ----------
+     O site anterior misturava 5, 9, 19, 20, 30 e 50px sem regra.
+     Aqui é uma escala só, de 4 a 12. */
+  --r-xs: 4px;
+  --r-sm: 6px;
+  --r-md: 8px;
+  --r-lg: 10px;
+  --r-xl: 12px;
+  --r-pill: 999px;
+  /* Exceção deliberada à escala: a pílula das abas. */
+  --r-tab: 18px;
+
+  --shadow-1: 0 1px 2px rgba(6, 43, 38, 0.06);
+  --shadow-2: 0 6px 18px rgba(6, 43, 38, 0.08);
+  --shadow-3: 0 12px 32px rgba(6, 43, 38, 0.16);
+
+  /* ---------- Movimento ---------- */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --t-fast: 140ms;
+  --t: 220ms;
+  --t-slow: 400ms;
+
+  /* ---------- Camadas ---------- */
+  --z-base: 0;
+  --z-sticky: 100;
+  --z-header: 200;
+  --z-float: 300;
+  --z-backdrop: 400;
+  --z-drawer: 500;
+  --z-toast: 600;
+}

@@ -1,0 +1,19 @@
+{
+  "name": "Concepto Saúde e Bem Estar",
+  "short_name": "Marca",
+  "description": "Clínica odontológica no Centro de São Paulo.",
+  "lang": "pt-BR",
+  "start_url": "/",
+  "scope": "/",
+  "display": "browser",
+  "background_color": "#eeeeee",
+  "theme_color": "#132049",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

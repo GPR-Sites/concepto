@@ -1,0 +1,7 @@
+# TROCAR: o domínio da linha Sitemap precisa ser o domínio real do cliente.
+
+User-agent: *
+Allow: /
+Disallow: /politica-de-privacidade.html
+
+Sitemap: https://www.conceptoodontologia.com.br/sitemap.xml
