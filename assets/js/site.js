@@ -42,7 +42,6 @@
     ['.steps > li', 50],
     ['.faq > details', 40],
     ['.gallery > li', 60],
-    ['.jornada > li', 0],
   ];
 
   function animacoes() {
@@ -1002,7 +1001,7 @@
           '@type': 'Person',
           name: (p.getAttribute('data-person') || '').trim(),
           jobTitle: (($('.person__role', p) || {}).textContent || '').trim(),
-          identifier: (($('.person__cro', p) || {}).textContent || '').trim(),
+          identifier: (($('.person__cro', p) || {}).textContent || '').trim() || undefined,
           image: img ? img.currentSrc || img.src : undefined,
           worksFor: { '@id': base + '/#clinica' },
         });

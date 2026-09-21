@@ -517,12 +517,10 @@ strong {
   color: var(--on-navy);
 }
 
-.site-header--overlay .brand-mark__glyph {
-  color: var(--gold);
-}
-
-.site-header--overlay .brand-mark__sub {
-  color: var(--gold);
+/* Sobre a foto do hero o turquesa da logo some: ela fica branca até
+   o cabeçalho ganhar fundo. */
+.site-header--overlay .brand-mark__logo {
+  filter: brightness(0) invert(1);
 }
 
 .site-header--overlay .nav-desktop a::after {
@@ -541,8 +539,8 @@ strong {
   color: var(--navy);
 }
 
-.site-header.is-stuck .brand-mark__sub {
-  color: var(--gold-deep);
+.site-header.is-stuck .brand-mark__logo {
+  filter: none;
 }
 
 .site-header.is-stuck .nav-desktop a::after {
@@ -563,42 +561,29 @@ strong {
   }
 }
 
-/* Marca: símbolo + nome + descritor. */
+/* Marca: a logo da clínica. */
 .brand-mark {
   display: inline-flex;
   align-items: center;
-  gap: var(--sp-3);
   color: var(--navy);
   text-decoration: none;
 }
 
-.brand-mark__glyph {
-  flex: none;
-  width: 28px;
-  height: 36px;
-  color: var(--gold-deep);
+.brand-mark__logo {
+  width: auto;
+  height: 2.75rem;
+  background: none;
+  transition: filter var(--t) var(--ease);
 }
 
-.brand-mark__text {
-  display: grid;
-  gap: 1px;
+@media (min-width: 64rem) {
+  .brand-mark__logo {
+    height: 3.25rem;
+  }
 }
 
-.brand-mark__name {
-  font-size: 0.9375rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  line-height: 1.1;
-}
-
-.brand-mark__sub {
-  font-size: 0.5rem;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--gold-deep);
-  line-height: 1.1;
+.footer-brand .brand-mark__logo {
+  height: 4rem;
 }
 
 .nav-toggle {
@@ -1627,6 +1612,7 @@ strong {
   display: grid;
   gap: var(--sp-1);
   flex: 1;
+  align-content: start;
   padding: var(--sp-5) var(--sp-4);
   text-align: center;
 }
@@ -2412,16 +2398,13 @@ strong {
   color: var(--muted);
 }
 
-/* Galeria: uma foto grande e três ao lado. No celular a grande vai
-   em cima e as três dividem a linha de baixo. */
+/* Galeria: duas fotos em destaque, a primeira e a que abre a segunda
+   metade. Com 14 fotos, é o que fecha a grade sem buraco nas duas
+   larguras. */
 .gallery {
   display: grid;
   gap: var(--sp-3);
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.gallery li {
-  position: relative;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .gallery img {
@@ -2429,131 +2412,33 @@ strong {
   height: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
+  object-position: center 30%;
   border-radius: var(--r-lg);
 }
 
-.gallery li:first-child {
-  grid-column: 1 / -1;
+.gallery li:first-child,
+.gallery li.gallery__destaque {
+  grid-column: span 2;
 }
 
-.gallery li:first-child img {
+.gallery li:first-child img,
+.gallery li.gallery__destaque img {
   aspect-ratio: 16 / 10;
 }
 
 @media (min-width: 48rem) {
   .gallery {
-    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: var(--sp-4);
   }
-  .gallery li:first-child {
-    grid-column: 1;
-    grid-row: 1 / span 3;
+  .gallery li:first-child,
+  .gallery li.gallery__destaque {
+    grid-column: span 2;
+    grid-row: span 2;
   }
-  .gallery li:first-child img {
+  .gallery li:first-child img,
+  .gallery li.gallery__destaque img {
     aspect-ratio: 1 / 1;
-  }
-  /* A grande dita a altura; as três dividem essa altura por igual. */
-  .gallery li:not(:first-child) img {
-    position: absolute;
-    inset: 0;
-    aspect-ratio: auto;
-    object-position: center 30%;
-  }
-}
-
-/* Jornada do paciente: linha do tempo numerada, texto e fotos por etapa. */
-.jornada {
-  display: grid;
-  gap: var(--sp-12);
-  counter-reset: passo;
-}
-
-.jornada__passo {
-  --marca: 2.5rem;
-  position: relative;
-  display: grid;
-  gap: var(--sp-5);
-  padding-left: calc(var(--marca) + var(--sp-4));
-  counter-increment: passo;
-}
-
-.jornada__passo::before {
-  content: counter(passo, decimal-leading-zero);
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  display: grid;
-  place-items: center;
-  width: var(--marca);
-  height: var(--marca);
-  border-radius: 50%;
-  background: var(--navy);
-  color: var(--on-navy);
-  font-size: var(--fs-meta);
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-}
-
-/* O fio desce do número até o número da etapa seguinte. */
-.jornada__passo::after {
-  content: '';
-  position: absolute;
-  top: var(--marca);
-  bottom: calc(-1 * var(--sp-12));
-  left: calc(var(--marca) / 2 - 1px);
-  width: 2px;
-  background: var(--line);
-}
-
-.jornada__passo:last-child::after {
-  display: none;
-}
-
-.jornada__texto {
-  padding-top: 0.4rem;
-}
-
-.jornada__texto h3 {
-  font-size: var(--fs-h3);
-  margin-bottom: var(--sp-2);
-}
-
-.jornada__texto p {
-  max-width: 44ch;
-}
-
-.jornada__fotos {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--sp-3);
-}
-
-.jornada__fotos img {
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  border-radius: var(--r-lg);
-}
-
-.jornada__fotos img:only-child {
-  grid-column: 1 / -1;
-  aspect-ratio: 16 / 10;
-}
-
-@media (min-width: 64rem) {
-  .jornada__passo {
-    --marca: 3rem;
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-    gap: var(--sp-10);
-    align-items: start;
-    padding-left: calc(var(--marca) + var(--sp-6));
-  }
-  .jornada__texto {
-    padding-top: 0.6rem;
-  }
-  .jornada__fotos {
-    gap: var(--sp-4);
   }
 }
 
