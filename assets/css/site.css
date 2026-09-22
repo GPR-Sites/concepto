@@ -1346,11 +1346,12 @@ strong {
   transition: background-color var(--t) var(--ease), color var(--t) var(--ease);
 }
 
+/* O símbolo da logo, sem o nome: no tamanho do cartão o "Concepto"
+   ficaria ilegível. */
 .card__glyph {
-  width: 30px;
-  height: 42px;
-  color: var(--navy);
-  transition: color var(--t) var(--ease);
+  width: auto;
+  height: 1.75rem;
+  background: none;
 }
 
 .card h3 {
@@ -1372,11 +1373,6 @@ strong {
 
 .card:hover h3,
 .card:focus-visible h3,
-.card:hover .card__glyph,
-.card:focus-visible .card__glyph {
-  color: var(--on-navy);
-}
-
 .card:hover p,
 .card:focus-visible p {
   color: var(--on-navy-muted);
@@ -1677,6 +1673,11 @@ strong {
   color: var(--on-navy);
 }
 
+/* O .lead padrão é --body, pensado para fundo claro: aqui sumia. */
+.proof .section-head .lead {
+  color: var(--on-navy-muted);
+}
+
 .proof .quote {
   background: transparent;
   border: 1px solid var(--on-navy-line);
@@ -1696,9 +1697,11 @@ strong {
   color: var(--on-navy);
 }
 
+/* Sobre a faixa escura o turquesa pode ser texto; o --gold-deep, feito
+   para fundo claro, quase não aparecia. */
 .proof .quote__initials {
-  background: rgba(1, 112, 95, 0.14);
-  color: var(--gold-deep);
+  background: rgba(0, 183, 162, 0.16);
+  color: var(--gold);
 }
 
 /* ---------------------------------------------------------
